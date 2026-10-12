@@ -1,0 +1,431 @@
+{
+  "burgers": {
+    "巨无霸": {
+      "fortune_name": "大器晚成签",
+      "auspicious": ["大手笔消费", "做重要决定", "见贵人"],
+      "inauspicious": ["优柔寡断", "吃素"],
+      "wealth": 4,
+      "love": 3,
+      "career": 5,
+      "lucky_color": "金色",
+      "lucky_number": 8,
+      "reading": "巨无霸三层牛肉，三层运势叠加。今日你如巨无霸般气场全开，大事可成。但切记—— sauce 要够，底气要足，方能压住运势不外泄。"
+    },
+    "麦辣鸡腿汉堡": {
+      "fortune_name": "辣运当头签",
+      "auspicious": ["表白", "穿红色衣服", "吃辣"],
+      "inauspicious": ["冷战", "喝白粥"],
+      "wealth": 3,
+      "love": 5,
+      "career": 3,
+      "lucky_color": "火红色",
+      "lucky_number": 7,
+      "reading": "鸡腿堡的辣，是热情的辣，是命运的辣。今日桃花运旺到发烫，单身者宜主动出击，有伴者宜给对方一个辣味拥抱。"
+    },
+    "板烧鸡腿堡": {
+      "fortune_name": "稳扎稳打签",
+      "auspicious": ["理财记账", "复盘总结", "早睡"],
+      "inauspicious": ["冲动消费", "跳槽"],
+      "wealth": 5,
+      "love": 2,
+      "career": 4,
+      "lucky_color": "大地色",
+      "lucky_number": 4,
+      "reading": "板烧者，慢工出细活也。今日宜稳不宜浪，财运如鸡腿般厚实可靠。不急不躁，月底查余额会有惊喜。"
+    },
+    "麦香鸡": {
+      "fortune_name": "返璞归真签",
+      "auspicious": ["联系老朋友", "整理房间", "散步"],
+      "inauspicious": ["复杂社交", "装腔作势"],
+      "wealth": 3,
+      "love": 4,
+      "career": 2,
+      "lucky_color": "暖黄色",
+      "lucky_number": 2,
+      "reading": "麦香鸡是汉堡界最朴素的存在，今日的你也该回归简单。放下那些花里胡哨的执念，返璞归真，反而柳暗花明。"
+    },
+    "双层吉士汉堡": {
+      "fortune_name": "好事成双签",
+      "auspicious": ["谈合作", "买一送一", "双倍下注"],
+      "inauspicious": ["单打独斗", "独食"],
+      "wealth": 4,
+      "love": 5,
+      "career": 4,
+      "lucky_color": "双层橙色",
+      "lucky_number": 6,
+      "reading": "双层吉士，好事成双。今日一切与\"双\"有关的事物都自带buff。宜与人合作，宜分享食物，宜接受那个第二次邀请。"
+    },
+    "不素之霸双层牛堡": {
+      "fortune_name": "霸气侧漏签",
+      "auspicious": ["谈判", "健身", "穿黑色"],
+      "inauspicious": ["示弱", "说\"随便\""],
+      "wealth": 5,
+      "love": 3,
+      "career": 5,
+      "lucky_color": "霸气黑",
+      "lucky_number": 9,
+      "reading": "不素之霸，就是不素！今日你气场两米八，走路带风。但霸气要有底气撑，记得吃饱了再出发。"
+    },
+    "培根蔬萃双层牛堡": {
+      "fortune_name": "荤素搭配签",
+      "auspicious": ["均衡饮食", "调解矛盾", "种植物"],
+      "inauspicious": ["极端化", "非黑即白"],
+      "wealth": 3,
+      "love": 4,
+      "career": 3,
+      "lucky_color": "翠绿色",
+      "lucky_number": 5,
+      "reading": "培根配蔬菜，荤素两不误。今日宜中庸之道，左右逢源。生活和工作的平衡，就在这口咬下里找到了答案。"
+    },
+    "高达吉士双牛堡": {
+      "fortune_name": "高人一等签",
+      "auspicious": ["考试", "面试", "展示才艺"],
+      "inauspicious": ["藏拙", "低调过头"],
+      "wealth": 3,
+      "love": 3,
+      "career": 5,
+      "lucky_color": "吉士黄",
+      "lucky_number": 1,
+      "reading": "高达者，高人也。今日你的才华如高达般耀眼，宜展示不宜藏拙。但切记——芝士虽好，可不要贪多，小心腻住。"
+    },
+    "麦香鱼": {
+      "fortune_name": "如鱼得水签",
+      "auspicious": ["游泳", "换工作环境", "靠近水源"],
+      "inauspicious": ["守株待兔", "原地踏步"],
+      "wealth": 3,
+      "love": 4,
+      "career": 4,
+      "lucky_color": "海蓝色",
+      "lucky_number": 3,
+      "reading": "麦香鱼，鱼跃龙门也。今日你如鱼得水，宜动不宜静。换个环境，也许就是新天地的开始。"
+    }
+  },
+  "snacks": {
+    "薯条": {
+      "fortune_name": "细水长流签",
+      "auspicious": ["存钱", "记流水账", "排队"],
+      "inauspicious": ["一次性花光", "插队"],
+      "wealth": 5,
+      "love": 2,
+      "career": 3,
+      "lucky_color": "黄金色",
+      "lucky_number": 0,
+      "reading": "薯条细长，财运也细水长流。今日不求暴富，但求每一笔小钱都花在刀刃上。积少成多，年底有惊喜。"
+    },
+    "麦乐鸡": {
+      "fortune_name": "乐在其中签",
+      "auspicious": ["玩游戏", "看搞笑视频", "自嗨"],
+      "inauspicious": ["较真", "钻牛角尖"],
+      "wealth": 2,
+      "love": 3,
+      "career": 2,
+      "lucky_color": "快乐橘",
+      "lucky_number": 6,
+      "reading": "麦乐鸡，快乐就完事了。今日宜傻乐不宜深沉，宜放松不宜内卷。蘸酱要选甜酸酱，人生也要加点甜。"
+    },
+    "麦辣鸡翅": {
+      "fortune_name": "展翅高飞签",
+      "auspicious": ["出差", "坐飞机", "尝试新事物"],
+      "inauspicious": ["宅家", "固步自封"],
+      "wealth": 3,
+      "love": 4,
+      "career": 5,
+      "lucky_color": "鸡翅金",
+      "lucky_number": 8,
+      "reading": "鸡翅者，展翅也。今日宜飞不宜走，宜冲不宜停。虽然你可能只是从工位飞到茶水间，但气势要先到位。"
+    },
+    "薄皮焦香V翅": {
+      "fortune_name": "薄皮突围签",
+      "auspicious": ["突破舒适区", "薄脸皮社交"],
+      "inauspicious": ["太要面子", "厚脸皮求人"],
+      "wealth": 3,
+      "love": 5,
+      "career": 3,
+      "lucky_color": "焦香棕",
+      "lucky_number": 7,
+      "reading": "薄皮者，放下面子也。今日宜主动出击，薄脸皮反而能成事。V翅的V，就是Victory的V。"
+    },
+    "那么大鸡排": {
+      "fortune_name": "大排场面签",
+      "auspicious": ["请客", "发朋友圈", "撑场面"],
+      "inauspicious": ["寒酸", "抠门"],
+      "wealth": 4,
+      "love": 3,
+      "career": 4,
+      "lucky_color": "排面金",
+      "lucky_number": 6,
+      "reading": "那么大鸡排，排面拉满。今日你自带社交气场，宜撑场面、宜请客。但记住，排面是给别人的，实惠是留自己的。"
+    },
+    "马苏里拉拉丝芝士条": {
+      "fortune_name": "芝士满满签",
+      "auspicious": ["读书", "考试", "学新技能"],
+      "inauspicious": ["裸考", "裸辞"],
+      "wealth": 3,
+      "love": 4,
+      "career": 4,
+      "lucky_color": "知识白",
+      "lucky_number": 3,
+      "reading": "芝士者，知识也。马苏里拉拉丝越长，你的知识面越广。今日宜充电不宜摆烂，拉的不是丝，是认知的边界。"
+    },
+    "玉米杯": {
+      "fortune_name": "金玉满堂签",
+      "auspicious": ["理财", "买黄金", "存定期"],
+      "inauspicious": ["冲动投资", "追涨杀跌"],
+      "wealth": 5,
+      "love": 2,
+      "career": 3,
+      "lucky_color": "玉米黄",
+      "lucky_number": 8,
+      "reading": "玉米粒粒如金粒，今日财运满堂。但切记，玉米要一粒一粒吃，钱要一块一块存。耐心是你的财富密码。"
+    },
+    "苹果片": {
+      "fortune_name": "平安喜乐签",
+      "auspicious": ["体检", "买保险", "祝福他人"],
+      "inauspicious": ["熬夜", "作死"],
+      "wealth": 2,
+      "love": 4,
+      "career": 2,
+      "lucky_color": "苹果红",
+      "lucky_number": 9,
+      "reading": "An apple a day keeps the doctor away。今日宜关注健康，宜平安喜乐。不要小看这小杯苹果片，它代表的是你对自己最朴素的善意。"
+    }
+  },
+  "drinks": {
+    "可乐": {
+      "fortune_name": "气泡灵感签",
+      "auspicious": ["头脑风暴", "提创意", "冒泡"],
+      "inauspicious": ["压抑想法", "憋着不说"],
+      "wealth": 3,
+      "love": 3,
+      "career": 5,
+      "lucky_color": "可乐棕",
+      "lucky_number": 1,
+      "reading": "可乐的气泡就是灵感的火花。今日创意如气泡般喷涌，宜表达不宜沉默。但记住——气放久了会没，灵感要趁新鲜用。"
+    },
+    "雪碧": {
+      "fortune_name": "透心凉签",
+      "auspicious": ["做决定", "冷静思考", "洗净铅华"],
+      "inauspicious": ["上头", "冲动"],
+      "wealth": 3,
+      "love": 2,
+      "career": 4,
+      "lucky_color": "透心绿",
+      "lucky_number": 0,
+      "reading": "雪碧者，清醒也。今日头脑如雪碧般透亮，宜做大决定不宜上头。但透心凉归透心凉，对人还是要保持温度。"
+    },
+    "纯悦": {
+      "fortune_name": "上善若水签",
+      "auspicious": ["冥想", "断舍离", "极简生活"],
+      "inauspicious": ["复杂化", "囤积"],
+      "wealth": 3,
+      "love": 3,
+      "career": 2,
+      "lucky_color": "透明色",
+      "lucky_number": 0,
+      "reading": "水善利万物而不争。今日宜做减法不宜做加法。生活如纯悦般无味，但无味才是至味。"
+    },
+    "阳光柠檬红茶": {
+      "fortune_name": "阳光普照签",
+      "auspicious": ["户外活动", "晒太阳", "传递正能量"],
+      "inauspicious": ["宅", "传播负能量"],
+      "wealth": 3,
+      "love": 5,
+      "career": 3,
+      "lucky_color": "阳光橙",
+      "lucky_number": 5,
+      "reading": "柠檬红茶，酸酸甜甜就是阳光的味道。今日你自带温暖气场，走到哪里亮到哪里。但记住，阳光太强也会晒伤人，温柔一点。"
+    },
+    "鲜萃咖啡": {
+      "fortune_name": "醒悟时刻签",
+      "auspicious": ["复盘", "想通一件事", "戒掉坏习惯"],
+      "inauspicious": ["装睡", "逃避现实"],
+      "wealth": 3,
+      "love": 2,
+      "career": 5,
+      "lucky_color": "咖啡棕",
+      "lucky_number": 1,
+      "reading": "咖啡一口，茅塞顿开。今日宜想通不宜装睡。那个你一直逃避的问题，答案就在这杯咖啡里。醒来吧，别做梦了。"
+    },
+    "锡兰红茶": {
+      "fortune_name": "温润如玉签",
+      "auspicious": ["社交", "调解纠纷", "写信"],
+      "inauspicious": ["撕逼", "冷战"],
+      "wealth": 2,
+      "love": 5,
+      "career": 3,
+      "lucky_color": "红茶红",
+      "lucky_number": 2,
+      "reading": "锡兰红茶，温润而不烈。今日宜以柔克刚，宜社交不宜独处。你的温和是最大的武器，但不要被人当软柿子捏。"
+    },
+    "麦咖啡奶铁": {
+      "fortune_name": "铁运当头签",
+      "auspicious": ["加班", "赶deadline", "铁人三项"],
+      "inauspicious": ["摸鱼", "请病假"],
+      "wealth": 4,
+      "love": 2,
+      "career": 5,
+      "lucky_color": "铁灰色",
+      "lucky_number": 7,
+      "reading": "奶铁者，铁人也。今日你如钢铁般意志坚定，适合攻坚克难。但铁也会生锈，记得给自己做做保养。"
+    }
+  },
+  "desserts": {
+    "经典麦旋风": {
+      "fortune_name": "旋风转运签",
+      "auspicious": ["换个思路", "反转局面", "吃回头草"],
+      "inauspicious": ["一条路走到黑", "死磕"],
+      "wealth": 4,
+      "love": 5,
+      "career": 3,
+      "lucky_color": "旋风白",
+      "lucky_number": 6,
+      "reading": "麦旋风，旋起来就转运了。今日宜翻转视角，反面看问题。你以为的绝路，旋一旋就是转机。"
+    },
+    "蓝莓爆爆珠麦旋风": {
+      "fortune_name": "惊喜爆爆签",
+      "auspicious": ["拆盲盒", "抽卡", "等待结果"],
+      "inauspicious": ["剧透", "提前焦虑"],
+      "wealth": 3,
+      "love": 5,
+      "career": 3,
+      "lucky_color": "蓝莓紫",
+      "lucky_number": 7,
+      "reading": "爆爆珠，咬下去才知道是什么味。今日宜期待不宜剧透，生活给你准备的惊喜，让它在嘴里爆开就好。"
+    },
+    "派": {
+      "fortune_name": "派头十足签",
+      "auspicious": ["当 leader", "主持会议", "发言"],
+      "inauspicious": ["缩在角落", "当透明人"],
+      "wealth": 4,
+      "love": 3,
+      "career": 5,
+      "lucky_color": "派皮金",
+      "lucky_number": 1,
+      "reading": "派者，排面也。今日你自带主角光环，宜发言不宜沉默。但派皮虽硬，馅是热的——外强中干也没关系，真材实料在里面。"
+    },
+    "圆筒冰淇淋": {
+      "fortune_name": "圆满如意签",
+      "auspicious": ["收尾", "画句号", "和解"],
+      "inauspicious": ["开新坑", "翻旧账"],
+      "wealth": 3,
+      "love": 5,
+      "career": 2,
+      "lucky_color": "奶油白",
+      "lucky_number": 9,
+      "reading": "圆筒者，圆满也。今日宜画句号不宜开新坑。那个拖了很久的事，今天就给它一个圆满的结局吧。"
+    },
+    "新地": {
+      "fortune_name": "甜运当头签",
+      "auspicious": ["约会", "表白", "说甜言蜜语"],
+      "inauspicious": ["说狠话", "冷暴力"],
+      "wealth": 2,
+      "love": 5,
+      "career": 2,
+      "lucky_color": "甜蜜粉",
+      "lucky_number": 2,
+      "reading": "新地，新的甜蜜地带。今日桃花运甜蜜指数拉满，宜说甜话不宜说狠话。但记住——冰淇淋会化，甜言蜜语要趁热说。"
+    }
+  },
+  "combos": {
+    "巨无霸三件套": {
+      "fortune_name": "大三元签",
+      "auspicious": ["三思而后行", "三方共赢", "三顾茅庐"],
+      "inauspicious": ["三人成虎", "朝三暮四"],
+      "wealth": 4,
+      "love": 4,
+      "career": 5,
+      "lucky_color": "三元金",
+      "lucky_number": 3,
+      "reading": "巨无霸三件套，三位一体大满贯。今日万事俱备，只欠东风——而东风就在套餐里配好了。开吃即开运。"
+    },
+    "麦辣鸡腿汉堡三件套": {
+      "fortune_name": "辣运三连签",
+      "auspicious": ["连续出击", "三连表白", "三倍快乐"],
+      "inauspicious": ["三心二意", "拖延"],
+      "wealth": 3,
+      "love": 5,
+      "career": 4,
+      "lucky_color": "三连红",
+      "lucky_number": 3,
+      "reading": "辣运三连，好运翻三倍。今日做事宜一鼓作气，三连出击。辣味套餐在手，天下我有。"
+    },
+    "板烧鸡腿堡三件套": {
+      "fortune_name": "稳如泰山签",
+      "auspicious": ["长期投资", "签合同", "安家"],
+      "inauspicious": ["朝令夕改", "搬家"],
+      "wealth": 5,
+      "love": 3,
+      "career": 4,
+      "lucky_color": "泰山青",
+      "lucky_number": 8,
+      "reading": "板烧三件套，稳如泰山。今日宜定不宜动，宜签不宜退。你的耐心和稳定性，是今天最大的底牌。"
+    },
+    "麦香鸡套餐": {
+      "fortune_name": "返璞归真签",
+      "auspicious": ["简化生活", "断舍离", "回归本心"],
+      "inauspicious": ["复杂化", "想太多"],
+      "wealth": 3,
+      "love": 4,
+      "career": 2,
+      "lucky_color": "简单黄",
+      "lucky_number": 1,
+      "reading": "麦香鸡套餐，最朴素的快乐。今日宜做减法不宜做加法，宜简单不宜复杂。幸福有时候就是这么一套简单的搭配。"
+    },
+    "麦香鱼套餐": {
+      "fortune_name": "鱼跃龙门签",
+      "auspicious": ["跳槽", "考试升学", "跨越式发展"],
+      "inauspicious": ["安于现状", "温水煮青蛙"],
+      "wealth": 3,
+      "love": 4,
+      "career": 5,
+      "lucky_color": "龙门蓝",
+      "lucky_number": 6,
+      "reading": "鱼套餐在手，龙门我有。今日宜跃不宜伏，那个你一直想跨过去的坎，今天就跨过去。"
+    },
+    "大堡口福三件套": {
+      "fortune_name": "口福满溢签",
+      "auspicious": ["聚餐", "请客", "美食探索"],
+      "inauspicious": ["独食", "节食"],
+      "wealth": 4,
+      "love": 4,
+      "career": 3,
+      "lucky_color": "口福红",
+      "lucky_number": 5,
+      "reading": "大堡口福，吃好喝好。今日宜与人分享美食不宜独食。口福不仅是吃的福，更是人脉的福。"
+    },
+    "精选单人餐三件套": {
+      "fortune_name": "独乐乐签",
+      "auspicious": ["独处", "自我提升", "me time"],
+      "inauspicious": ["无效社交", "勉强合群"],
+      "wealth": 3,
+      "love": 3,
+      "career": 4,
+      "lucky_color": "独处蓝",
+      "lucky_number": 1,
+      "reading": "单人餐，一个人的盛宴。今日宜独处不宜合群，与自己相处是最高级的奢侈。吃好这顿单人餐，你已经赢过80%的人。"
+    },
+    "人气超值四件套随心选": {
+      "fortune_name": "随心所欲签",
+      "auspicious": ["随心选", "不做选择题", "全都要"],
+      "inauspicious": ["纠结", "做减法"],
+      "wealth": 4,
+      "love": 4,
+      "career": 4,
+      "lucky_color": "随心彩",
+      "lucky_number": 4,
+      "reading": "四件套随心选，人生也可以随心选。今日宜做选择题不宜做判断题——全都要不是贪心，是你应得的。"
+    }
+  },
+  "extra_fortunes": [
+    "今日麦门庇佑，所食即所得，所得即所愿。",
+    "这一餐，不只是充饥，更是命运的暗号。",
+    "麦门信徒今日得签，运势如同薯条——细长且金黄。",
+    "签文已出，运势已定。但记住：命运掌握在自己手中，筷子掌握在另一只手中。",
+    "今日宜吃麦，忌空腹。运势随餐品一同到来，吃完方灵。",
+    "麦门抽签，灵不灵不知道，好吃是肯定的。",
+    "此签大吉。但吉不吉，看你吃完有没有擦嘴。",
+    "运势如可乐气泡，趁新鲜用完。过期不候。",
+    "今日你的幸运光晕半径为3米，请靠近有好运的人。",
+    "抽到这签说明你与麦门有缘。缘深缘浅，看你怎么搭。"
+  ]
+}

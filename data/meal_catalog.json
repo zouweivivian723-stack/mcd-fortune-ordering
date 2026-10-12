@@ -1,0 +1,58 @@
+{
+  "burgers": {
+    "巨无霸": {"code": "1100", "price": 25.5, "category": "burger"},
+    "双层吉士汉堡": {"code": "1120", "price": 23.0, "category": "burger"},
+    "麦辣鸡腿汉堡": {"code": "1440", "price": 22.5, "category": "burger"},
+    "板烧鸡腿堡": {"code": "1406", "price": 23.5, "category": "burger"},
+    "麦香鸡": {"code": "1450", "price": 17.0, "category": "burger"},
+    "麦香鱼": {"code": "1600", "price": 22.5, "category": "burger"},
+    "不素之霸双层牛堡": {"code": "4648", "price": 26.5, "category": "burger"},
+    "培根蔬萃双层牛堡": {"code": "1106", "price": 24.5, "category": "burger"},
+    "高达吉士双牛堡": {"code": "521316", "price": 22.5, "category": "burger"}
+  },
+  "snacks": {
+    "薯条": {"code": "4810", "price": 13.5, "category": "snack"},
+    "麦乐鸡": {"code": "1401", "price": 14.0, "category": "snack"},
+    "麦辣鸡翅": {"code": "1700", "price": 15.0, "category": "snack"},
+    "薄皮焦香V翅": {"code": "520445", "price": 16.0, "category": "snack"},
+    "那么大鸡排": {"code": "521156", "price": 14.0, "category": "snack"},
+    "马苏里拉拉丝芝士条": {"code": "521986", "price": 11.0, "category": "snack"},
+    "玉米杯": {"code": "4437", "price": 13.0, "category": "snack"},
+    "苹果片": {"code": "6102", "price": 7.0, "category": "snack"}
+  },
+  "drinks": {
+    "可乐": {"code": "9900008751", "price": 9.5, "category": "drink"},
+    "雪碧": {"code": "3010", "price": 9.5, "category": "drink"},
+    "纯悦": {"code": "3757", "price": 7.5, "category": "drink"},
+    "阳光柠檬红茶": {"code": "515280", "price": 9.5, "category": "drink"},
+    "鲜萃咖啡": {"code": "520689", "price": 9.5, "category": "drink"},
+    "锡兰红茶": {"code": "3505", "price": 11.5, "category": "drink"},
+    "麦咖啡奶铁": {"code": "507409", "price": 13.9, "category": "drink"}
+  },
+  "desserts": {
+    "经典麦旋风": {"code": "9900008754", "price": 15.5, "category": "dessert"},
+    "蓝莓爆爆珠麦旋风": {"code": "521950", "price": 16.5, "category": "dessert"},
+    "派": {"code": "9900008752", "price": 8.5, "category": "dessert"},
+    "圆筒冰淇淋": {"code": "515837", "price": 5.0, "category": "dessert"},
+    "新地": {"code": "9900008745", "price": 12.0, "category": "dessert"}
+  },
+  "combos": {
+    "巨无霸三件套": {"code": "9900005466", "price": 36.5, "category": "combo"},
+    "麦辣鸡腿汉堡三件套": {"code": "9900005456", "price": 33.5, "category": "combo"},
+    "板烧鸡腿堡三件套": {"code": "9900005462", "price": 34.5, "category": "combo"},
+    "麦香鸡套餐": {"code": "9900005453", "price": 28.0, "category": "combo"},
+    "麦香鱼套餐": {"code": "9900005460", "price": 33.5, "category": "combo"},
+    "大堡口福三件套": {"code": "9900015602", "price": 22.9, "category": "combo"},
+    "精选单人餐三件套": {"code": "9900004064", "price": 34.5, "category": "combo"},
+    "人气超值四件套随心选": {"code": "9900004236", "price": 28.0, "category": "combo"},
+    "麦乐鸡套餐": {"code": "9900004835", "price": 25.0, "category": "combo"},
+    "吉士汉堡包套餐": {"code": "9900005449", "price": 26.0, "category": "combo"},
+    "麦辣鸡翅4块套餐": {"code": "9900005451", "price": 36.5, "category": "combo"},
+    "双层吉士汉堡套餐": {"code": "9900005464", "price": 34.0, "category": "combo"},
+    "培根蔬萃双层牛堡三件套": {"code": "9900005468", "price": 35.5, "category": "combo"},
+    "双层深海鳕鱼堡三件套": {"code": "9900005413", "price": 35.0, "category": "combo"},
+    "不素之霸双层牛堡三件套": {"code": "9900005411", "price": 37.5, "category": "combo"},
+    "人气经典随心配": {"code": "9900013304", "price": 14.9, "category": "combo"},
+    "精选超值随心配": {"code": "9900015568", "price": 13.9, "category": "combo"}
+  }
+}
