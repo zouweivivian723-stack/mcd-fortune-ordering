@@ -99,6 +99,34 @@ python3 src/fortune_engine.py 30
 
 > 试不同预算：`python3 src/fortune_engine.py 15` / `30` / `50` / `100`
 
+## 可视化抽签卡片
+
+除了命令行输出，我们还提供了一个**可视化抽签卡片**（`fortune_card.html`），让抽签体验更具仪式感：
+
+- **麦当劳红黄配色**：经典品牌视觉，金色签筒 + 红色卡片 + 黄色点缀
+- **竹筒摇签动画**：模拟传统抽签的竹筒晃动，签条从筒中滑出
+- **金光爆发特效**：签条落地瞬间，金色光晕向外扩散
+- **卡片翻转揭示**：运势卡片以 3D 翻转效果登场
+- **星级弹出动画**：财运/桃花运/事业运星级依次弹入
+- **Web Audio API 音效**：
+  - 摇签音效（白噪声模拟竹筒晃动声）
+  - 揭示音效（C-E-G-C 上行琶音）
+  - 星级弹出音效（高频清脆叮声）
+- **一键下载图片**：使用 html2canvas 将运势卡片导出为 PNG 图片，可分享到朋友圈
+
+### 在线体验
+
+直接用浏览器打开 `fortune_card.html` 即可体验：
+
+```bash
+# 克隆后直接打开
+open fortune_card.html        # macOS
+start fortune_card.html        # Windows
+xdg-open fortune_card.html     # Linux
+```
+
+选择预算金额（15/30/50/100 元），点击「抽签」按钮，享受完整的视听抽签体验！
+
 ## 项目结构
 
 ```
@@ -109,6 +137,7 @@ mcd-fortune-ordering/
 ├── mcp-config.example.json       # 脱敏 MCP 配置示例
 ├── workbuddy.md                  # WorkBuddy 开发上下文
 ├── SKILL.md                      # WorkBuddy Skill 定义文件
+├── fortune_card.html             # 可视化抽签卡片（动画+音效+图片下载）
 ├── src/
 │   └── fortune_engine.py         # 运势引擎核心代码
 └── data/
@@ -145,6 +174,7 @@ mcd-fortune-ordering/
 - **预算感知搭配算法**：根据预算智能选择搭配策略，保证不超支
 - **40+ 餐品运势模板**：每个餐品都有独特的运势文案，组合生成千变万化的签文
 - **WorkBuddy Skill 集成**：支持在 WorkBuddy 中直接对话使用
+- **可视化抽签卡片**：纯前端实现（HTML/CSS/JS），麦当劳红黄品牌配色，竹筒摇签动画 + 金光特效 + Web Audio API 音效 + html2canvas 图片导出，零依赖开箱即用
 
 ## 目标用户
 

@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>麦门抽签 - McDonald's Fortune</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --mc-red: #E4002B;
+  --mc-yellow: #FFC72C;
+  --mc-cream: #FFF8E7;
+  --mc-dark: #1A1A1A;
+  --mc-gold: #D4A017;
+}
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #E4002B 0%, #C70021 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+}
+.bg-pattern {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: radial-gradient(circle at 20% 30%, rgba(255,199,44,0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, rgba(255,199,44,0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+.container {
+  position: relative;
+  z-index: 1;
+  width: 420px;
+  max-width: 95vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+}
+.m-logo {
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--mc-yellow);
+  letter-spacing: -3px;
+  margin-bottom: 6px;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+}
+.m-title {
+  font-size: 14px;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 4px;
+  margin-bottom: 30px;
+}
+
+/* Draw Button */
+.draw-btn {
+  background: var(--mc-yellow);
+  color: var(--mc-red);
+  border: none;
+  padding: 14px 48px;
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.draw-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(0,0,0,0.35); }
+.draw-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* Animation Stage */
+.anim-stage {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+/* Fortune Tube */
+.fortune-tube {
+  width: 70px;
+  height: 160px;
+  background: linear-gradient(180deg, #8B4513 0%, #A0522D 50%, #8B4513 100%);
+  border-radius: 8px;
+  position: relative;
+  box-shadow: inset -3px 0 8px rgba(0,0,0,0.3), inset 3px 0 8px rgba(255,255,255,0.1), 0 4px 10px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 8px;
+  transform-origin: bottom center;
+}
+.fortune-tube::before {
+  content: '';
+  width: 50px;
+  height: 6px;
+  background: #D4A017;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.fortune-tube.shaking {
+  animation: shake 0.6s ease-in-out infinite;
+}
+@keyframes shake {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  20% { transform: rotate(-8deg) translateY(-5px); }
+  40% { transform: rotate(8deg) translateY(-3px); }
+  60% { transform: rotate(-6deg) translateY(-5px); }
+  80% { transform: rotate(6deg) translateY(-3px); }
+}
+
+/* Fortune Slip */
+.fortune-slip {
+  width: 50px;
+  height: 0;
+  background: var(--mc-cream);
+  border: 2px solid var(--mc-gold);
+  border-radius: 4px;
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--mc-red);
+  font-weight: 700;
+  writing-mode: vertical-rl;
+  z-index: 2;
+}
+.fortune-slip.falling {
+  animation: slipFall 0.8s ease-out forwards;
+}
+@keyframes slipFall {
+  0% { height: 0; top: 30px; opacity: 0; }
+  20% { height: 20px; opacity: 1; }
+  50% { height: 80px; top: 60px; }
+  100% { height: 120px; top: 140px; opacity: 0; }
+}
+
+/* Glow */
+.glow-effect {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,199,44,0.4) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  pointer-events: none;
+}
+.glow-effect.burst {
+  animation: glowBurst 0.8s ease-out forwards;
+}
+@keyframes glowBurst {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+}
+
+/* Fortune Card */
+.card-container {
+  width: 100%;
+  perspective: 1000px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.card-container.show { opacity: 1; }
+.card-inner {
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+.card-inner.flipped { transform: rotateY(180deg); }
+.card-face {
+  backface-visibility: hidden;
+  position: relative;
+}
+.card-back {
+  position: absolute;
+  top: 0; left: 0;
+  transform: rotateY(180deg);
+}
+
+/* The actual fortune card */
+.fortune-card {
+  background: linear-gradient(180deg, #FFF8E7 0%, #FFF0CC 100%);
+  border: 3px solid var(--mc-yellow);
+  border-radius: 16px;
+  padding: 24px 20px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  position: relative;
+  overflow: hidden;
+}
+.fortune-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(180deg, var(--mc-red) 0%, #C70021 100%);
+  z-index: 0;
+}
+.card-header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+  border-bottom: 2px dashed rgba(228,0,43,0.2);
+}
+.card-header .arch {
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--mc-yellow);
+  letter-spacing: -2px;
+  line-height: 1;
+}
+.card-header .subtitle {
+  font-size: 13px;
+  color: rgba(255,255,255,0.9);
+  margin-top: 4px;
+  letter-spacing: 2px;
+}
+.fortune-id {
+  display: inline-block;
+  background: var(--mc-red);
+  color: var(--mc-yellow);
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: 12px;
+  color: var(--mc-red);
+  font-weight: 700;
+  border-left: 3px solid var(--mc-yellow);
+  padding-left: 8px;
+  margin: 12px 0 8px;
+  letter-spacing: 1px;
+}
+.meal-list {
+  list-style: none;
+  margin-bottom: 8px;
+}
+.meal-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 14px;
+  color: var(--mc-dark);
+  border-bottom: 1px dotted rgba(0,0,0,0.08);
+}
+.meal-list li:last-child { border-bottom: 2px solid var(--mc-red); font-weight: 700; }
+.meal-list .price { color: var(--mc-red); font-weight: 600; }
+.yiji-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.yiji-tag {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+.yiji-good { background: rgba(27,109,17,0.1); color: #27500A; }
+.yiji-bad { background: rgba(163,45,45,0.1); color: #791F1F; }
+.star-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+  font-size: 13px;
+  color: var(--mc-dark);
+}
+.star-label { width: 56px; font-weight: 600; }
+.stars { font-size: 16px; letter-spacing: 1px; }
+.star-filled { color: var(--mc-yellow); text-shadow: 0 0 4px rgba(255,199,44,0.5); }
+.star-empty { color: #ddd; }
+.star-row .star-value { margin-left: auto; color: var(--mc-red); font-weight: 700; }
+.lucky-row {
+  display: flex;
+  gap: 20px;
+  margin: 10px 0;
+}
+.lucky-item {
+  font-size: 13px;
+  color: var(--mc-dark);
+}
+.lucky-item .label { color: #888; font-size: 11px; }
+.lucky-item .value { font-weight: 700; color: var(--mc-red); font-size: 15px; }
+.reading-text {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #555;
+  text-align: justify;
+  padding: 10px;
+  background: rgba(255,199,44,0.08);
+  border-radius: 8px;
+  border-left: 3px solid var(--mc-yellow);
+}
+.extra-fortune {
+  text-align: center;
+  font-size: 12px;
+  color: var(--mc-gold);
+  margin-top: 12px;
+  font-style: italic;
+  padding: 8px;
+  background: rgba(228,0,43,0.05);
+  border-radius: 8px;
+}
+.coupon-section {
+  margin-top: 12px;
+  padding: 8px 10px;
+  background: rgba(228,0,43,0.08);
+  border-radius: 8px;
+  border: 1px dashed var(--mc-red);
+}
+.coupon-section .title { font-size: 11px; color: var(--mc-red); font-weight: 700; margin-bottom: 4px; }
+.coupon-section .item { font-size: 12px; color: #666; padding: 2px 0; }
+
+/* Controls */
+.controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+.ctrl-btn {
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: 2px solid rgba(255,255,255,0.3);
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.ctrl-btn:hover { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.5); }
+.ctrl-btn.primary { background: var(--mc-yellow); color: var(--mc-red); border-color: var(--mc-yellow); font-weight: 700; }
+
+/* Budget input */
+.budget-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.budget-input input {
+  width: 80px;
+  padding: 8px 12px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.15);
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  outline: none;
+}
+.budget-input input::placeholder { color: rgba(255,255,255,0.5); }
+.budget-input input:focus { border-color: var(--mc-yellow); }
+.budget-input label { color: rgba(255,255,255,0.8); font-size: 14px; }
+.budget-presets { display: flex; gap: 6px; }
+.preset-btn {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.7);
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.preset-btn:hover, .preset-btn.active { background: var(--mc-yellow); color: var(--mc-red); border-color: var(--mc-yellow); }
+
+/* Star pop animation */
+@keyframes starPop {
+  0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+  50% { transform: scale(1.3) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+.star-pop { animation: starPop 0.4s ease-out forwards; display: inline-block; }
+
+/* Card reveal */
+@keyframes cardReveal {
+  0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.card-reveal { animation: cardReveal 0.5s ease-out forwards; }
+
+/* Hidden state */
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="bg-pattern"></div>
+<div class="container">
+  <div class="m-logo">M</div>
+  <div class="m-title">麦门抽签 · FORTUNE ORDERING</div>
+
+  <div class="budget-input">
+    <label>预算</label>
+    <input type="number" id="budget" value="30" min="5" max="200" step="5">
+    <span style="color:rgba(255,255,255,0.6);font-size:14px;">元</span>
+    <div class="budget-presets">
+      <button class="preset-btn active" data-budget="15">15</button>
+      <button class="preset-btn" data-budget="30">30</button>
+      <button class="preset-btn" data-budget="50">50</button>
+      <button class="preset-btn" data-budget="100">100</button>
+    </div>
+  </div>
+
+  <button class="draw-btn" id="drawBtn" onclick="drawFortune()">
+    抽 签
+  </button>
+
+  <div class="anim-stage" id="animStage">
+    <div class="glow-effect" id="glow"></div>
+    <div class="fortune-tube hidden" id="tube">
+    </div>
+    <div class="fortune-slip hidden" id="slip">
+    </div>
+  </div>
+
+  <div class="card-container hidden" id="cardContainer">
+    <div class="fortune-card" id="fortuneCard">
+      <div class="card-header">
+        <div class="arch">M</div>
+        <div class="subtitle">麦门今日运势</div>
+      </div>
+      <div style="text-align:center;">
+        <span class="fortune-id" id="fortuneId">中签 第000号</span>
+      </div>
+      <div class="section-title">签名套餐</div>
+      <ul class="meal-list" id="mealList"></ul>
+      <div class="section-title">运势解读</div>
+      <div class="yiji-row" id="yijiRow"></div>
+      <div class="star-row"><span class="star-label">财运</span><span class="stars" id="wealthStars"></span><span class="star-value" id="wealthVal"></span></div>
+      <div class="star-row"><span class="star-label">桃花运</span><span class="stars" id="loveStars"></span><span class="star-value" id="loveVal"></span></div>
+      <div class="star-row"><span class="star-label">事业运</span><span class="stars" id="careerStars"></span><span class="star-value" id="careerVal"></span></div>
+      <div class="lucky-row">
+        <div class="lucky-item"><div class="label">幸运色</div><div class="value" id="luckyColor">金色</div></div>
+        <div class="lucky-item"><div class="label">幸运数字</div><div class="value" id="luckyNumber">8</div></div>
+        <div class="lucky-item"><div class="label">预算/实付</div><div class="value" id="budgetInfo">30/28</div></div>
+      </div>
+      <div class="reading-text" id="readingText"></div>
+      <div class="extra-fortune" id="extraFortune"></div>
+      <div class="coupon-section hidden" id="couponSection">
+        <div class="title">可用优惠券</div>
+        <div id="couponList"></div>
+      </div>
+    </div>
+    <div class="controls">
+      <button class="ctrl-btn primary" onclick="downloadCard()">下载图片</button>
+      <button class="ctrl-btn" onclick="resetDraw()">再抽一签</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const MEALS = {
+  burgers: {
+    "巨无霸": {"code":"1100","price":25.5,"fortune_name":"大器晚成签","auspicious":["大手笔消费","做重要决定","见贵人"],"inauspicious":["优柔寡断","吃素"],"wealth":4,"love":3,"career":5,"lucky_color":"金色","lucky_number":8,"reading":"巨无霸三层牛肉，三层运势叠加。今日你如巨无霸般气场全开，大事可成。但切记 sauce 要够，底气要足，方能压住运势不外泄。"},
+    "麦辣鸡腿汉堡": {"code":"1440","price":22.5,"fortune_name":"辣运当头签","auspicious":["表白","穿红色衣服","吃辣"],"inauspicious":["冷战","喝白粥"],"wealth":3,"love":5,"career":3,"lucky_color":"火红色","lucky_number":7,"reading":"鸡腿堡的辣，是热情的辣，是命运的辣。今日桃花运旺到发烫，单身者宜主动出击，有伴者宜给对方一个辣味拥抱。"},
+    "板烧鸡腿堡": {"code":"1406","price":23.5,"fortune_name":"稳扎稳打签","auspicious":["理财记账","复盘总结","早睡"],"inauspicious":["冲动消费","跳槽"],"wealth":5,"love":2,"career":4,"lucky_color":"大地色","lucky_number":4,"reading":"板烧者，慢工出细活也。今日宜稳不宜浪，财运如鸡腿般厚实可靠。不急不躁，月底查余额会有惊喜。"},
+    "麦香鸡": {"code":"1450","price":17.0,"fortune_name":"返璞归真签","auspicious":["联系老朋友","整理房间","散步"],"inauspicious":["复杂社交","装腔作势"],"wealth":3,"love":4,"career":2,"lucky_color":"暖黄色","lucky_number":2,"reading":"麦香鸡是汉堡界最朴素的存在，今日的你也该回归简单。放下那些花里胡哨的执念，返璞归真，反而柳暗花明。"},
+    "双层吉士汉堡": {"code":"1120","price":23.0,"fortune_name":"好事成双签","auspicious":["谈合作","买一送一","双倍下注"],"inauspicious":["单打独斗","独食"],"wealth":4,"love":5,"career":4,"lucky_color":"双层橙色","lucky_number":6,"reading":"双层吉士，好事成双。今日一切与双有关的事物都自带buff。宜与人合作，宜分享食物，宜接受那个第二次邀请。"},
+    "不素之霸双层牛堡": {"code":"4648","price":26.5,"fortune_name":"霸气侧漏签","auspicious":["谈判","健身","穿黑色"],"inauspicious":["示弱","说随便"],"wealth":5,"love":3,"career":5,"lucky_color":"霸气黑","lucky_number":9,"reading":"不素之霸，就是不素！今日你气场两米八，走路带风。但霸气要有底气撑，记得吃饱了再出发。"},
+    "麦香鱼": {"code":"1600","price":22.5,"fortune_name":"如鱼得水签","auspicious":["游泳","换工作环境","靠近水源"],"inauspicious":["守株待兔","原地踏步"],"wealth":3,"love":4,"career":4,"lucky_color":"海蓝色","lucky_number":3,"reading":"麦香鱼，鱼跃龙门也。今日你如鱼得水，宜动不宜静。换个环境，也许就是新天地的开始。"}
+  },
+  snacks: {
+    "薯条": {"code":"4810","price":13.5,"fortune_name":"细水长流签","auspicious":["存钱","记流水账","排队"],"inauspicious":["一次性花光","插队"],"wealth":5,"love":2,"career":3,"lucky_color":"黄金色","lucky_number":0,"reading":"薯条细长，财运也细水长流。今日不求暴富，但求每一笔小钱都花在刀刃上。积少成多，年底有惊喜。"},
+    "麦乐鸡": {"code":"1401","price":14.0,"fortune_name":"乐在其中签","auspicious":["玩游戏","看搞笑视频","自嗨"],"inauspicious":["较真","钻牛角尖"],"wealth":2,"love":3,"career":2,"lucky_color":"快乐橘","lucky_number":6,"reading":"麦乐鸡，快乐就完事了。今日宜傻乐不宜深沉，宜放松不宜内卷。蘸酱要选甜酸酱，人生也要加点甜。"},
+    "麦辣鸡翅": {"code":"1700","price":15.0,"fortune_name":"展翅高飞签","auspicious":["出差","坐飞机","尝试新事物"],"inauspicious":["宅家","固步自封"],"wealth":3,"love":4,"career":5,"lucky_color":"鸡翅金","lucky_number":8,"reading":"鸡翅者，展翅也。今日宜飞不宜走，宜冲不宜停。虽然你可能只是从工位飞到茶水间，但气势要先到位。"},
+    "马苏里拉拉丝芝士条": {"code":"521986","price":11.0,"fortune_name":"芝士满满签","auspicious":["读书","考试","学新技能"],"inauspicious":["裸考","裸辞"],"wealth":3,"love":4,"career":4,"lucky_color":"知识白","lucky_number":3,"reading":"芝士者，知识也。马苏里拉拉丝越长，你的知识面越广。今日宜充电不宜摆烂，拉的不是丝，是认知的边界。"},
+    "玉米杯": {"code":"4437","price":13.0,"fortune_name":"金玉满堂签","auspicious":["理财","买黄金","存定期"],"inauspicious":["冲动投资","追涨杀跌"],"wealth":5,"love":2,"career":3,"lucky_color":"玉米黄","lucky_number":8,"reading":"玉米粒粒如金粒，今日财运满堂。但切记，玉米要一粒一粒吃，钱要一块一块存。耐心是你的财富密码。"},
+    "苹果片": {"code":"6102","price":7.0,"fortune_name":"平安喜乐签","auspicious":["体检","买保险","祝福他人"],"inauspicious":["熬夜","作死"],"wealth":2,"love":4,"career":2,"lucky_color":"苹果红","lucky_number":9,"reading":"An apple a day keeps the doctor away。今日宜关注健康，宜平安喜乐。不要小看这小杯苹果片，它代表的是你对自己最朴素的善意。"}
+  },
+  drinks: {
+    "可乐": {"code":"9900008751","price":9.5,"fortune_name":"气泡灵感签","auspicious":["头脑风暴","提创意","冒泡"],"inauspicious":["压抑想法","憋着不说"],"wealth":3,"love":3,"career":5,"lucky_color":"可乐棕","lucky_number":1,"reading":"可乐的气泡就是灵感的火花。今日创意如气泡般喷涌，宜表达不宜沉默。但记住气放久了会没，灵感要趁新鲜用。"},
+    "雪碧": {"code":"3010","price":9.5,"fortune_name":"透心凉签","auspicious":["做决定","冷静思考","洗净铅华"],"inauspicious":["上头","冲动"],"wealth":3,"love":2,"career":4,"lucky_color":"透心绿","lucky_number":0,"reading":"雪碧者，清醒也。今日头脑如雪碧般透亮，宜做大决定不宜上头。但透心凉归透心凉，对人还是要保持温度。"},
+    "鲜萃咖啡": {"code":"520689","price":9.5,"fortune_name":"醒悟时刻签","auspicious":["复盘","想通一件事","戒掉坏习惯"],"inauspicious":["装睡","逃避现实"],"wealth":3,"love":2,"career":5,"lucky_color":"咖啡棕","lucky_number":1,"reading":"咖啡一口，茅塞顿开。今日宜想通不宜装睡。那个你一直逃避的问题，答案就在这杯咖啡里。醒来吧，别做梦了。"},
+    "阳光柠檬红茶": {"code":"515280","price":9.5,"fortune_name":"阳光普照签","auspicious":["户外活动","晒太阳","传递正能量"],"inauspicious":["宅","传播负能量"],"wealth":3,"love":5,"career":3,"lucky_color":"阳光橙","lucky_number":5,"reading":"柠檬红茶，酸酸甜甜就是阳光的味道。今日你自带温暖气场，走到哪里亮到哪里。但阳光太强也会晒伤人，温柔一点。"},
+    "锡兰红茶": {"code":"3505","price":11.5,"fortune_name":"温润如玉签","auspicious":["社交","调解纠纷","写信"],"inauspicious":["撕逼","冷战"],"wealth":2,"love":5,"career":3,"lucky_color":"红茶红","lucky_number":2,"reading":"锡兰红茶，温润而不烈。今日宜以柔克刚，宜社交不宜独处。你的温和是最大的武器，但不要被人当软柿子捏。"}
+  },
+  desserts: {
+    "经典麦旋风": {"code":"9900008754","price":15.5,"fortune_name":"旋风转运签","auspicious":["换个思路","反转局面","吃回头草"],"inauspicious":["一条路走到黑","死磕"],"wealth":4,"love":5,"career":3,"lucky_color":"旋风白","lucky_number":6,"reading":"麦旋风，旋起来就转运了。今日宜翻转视角，反面看问题。你以为的绝路，旋一旋就是转机。"},
+    "派": {"code":"9900008752","price":8.5,"fortune_name":"派头十足签","auspicious":["当leader","主持会议","发言"],"inauspicious":["缩在角落","当透明人"],"wealth":4,"love":3,"career":5,"lucky_color":"派皮金","lucky_number":1,"reading":"派者，排面也。今日你自带主角光环，宜发言不宜沉默。但派皮虽硬，馅是热的，外强中干也没关系，真材实料在里面。"},
+    "圆筒冰淇淋": {"code":"515837","price":5.0,"fortune_name":"圆满如意签","auspicious":["收尾","画句号","和解"],"inauspicious":["开新坑","翻旧账"],"wealth":3,"love":5,"career":2,"lucky_color":"奶油白","lucky_number":9,"reading":"圆筒者，圆满也。今日宜画句号不宜开新坑。那个拖了很久的事，今天就给它一个圆满的结局吧。"},
+    "新地": {"code":"9900008745","price":12.0,"fortune_name":"甜运当头签","auspicious":["约会","表白","说甜言蜜语"],"inauspicious":["说狠话","冷暴力"],"wealth":2,"love":5,"career":2,"lucky_color":"甜蜜粉","lucky_number":2,"reading":"新地，新的甜蜜地带。今日桃花运甜蜜指数拉满，宜说甜话不宜说狠话。但冰淇淋会化，甜言蜜语要趁热说。"}
+  },
+  combos: {
+    "巨无霸三件套": {"code":"9900005466","price":36.5,"fortune_name":"大三元签","auspicious":["三思而后行","三方共赢","三顾茅庐"],"inauspicious":["三人成虎","朝三暮四"],"wealth":4,"love":4,"career":5,"lucky_color":"三元金","lucky_number":3,"reading":"巨无霸三件套，三位一体大满贯。今日万事俱备，只欠东风，而东风就在套餐里配好了。开吃即开运。"},
+    "麦辣鸡腿汉堡三件套": {"code":"9900005456","price":33.5,"fortune_name":"辣运三连签","auspicious":["连续出击","三连表白","三倍快乐"],"inauspicious":["三心二意","拖延"],"wealth":3,"love":5,"career":4,"lucky_color":"三连红","lucky_number":3,"reading":"辣运三连，好运翻三倍。今日做事宜一鼓作气，三连出击。辣味套餐在手，天下我有。"},
+    "板烧鸡腿堡三件套": {"code":"9900005462","price":34.5,"fortune_name":"稳如泰山签","auspicious":["长期投资","签合同","安家"],"inauspicious":["朝令夕改","搬家"],"wealth":5,"love":3,"career":4,"lucky_color":"泰山青","lucky_number":8,"reading":"板烧三件套，稳如泰山。今日宜定不宜动，宜签不宜退。你的耐心和稳定性，是今天最大的底牌。"},
+    "麦香鸡套餐": {"code":"9900005453","price":28.0,"fortune_name":"返璞归真签","auspicious":["简化生活","断舍离","回归本心"],"inauspicious":["复杂化","想太多"],"wealth":3,"love":4,"career":2,"lucky_color":"简单黄","lucky_number":1,"reading":"麦香鸡套餐，最朴素的快乐。今日宜做减法不宜做加法，宜简单不宜复杂。幸福有时候就是这么一套简单的搭配。"},
+    "精选单人餐三件套": {"code":"9900004064","price":34.5,"fortune_name":"独乐乐签","auspicious":["独处","自我提升","me time"],"inauspicious":["无效社交","勉强合群"],"wealth":3,"love":3,"career":4,"lucky_color":"独处蓝","lucky_number":1,"reading":"单人餐，一个人的盛宴。今日宜独处不宜合群，与自己相处是最高级的奢侈。吃好这顿单人餐，你已经赢过80%的人。"},
+    "大堡口福三件套": {"code":"9900015602","price":22.9,"fortune_name":"口福满溢签","auspicious":["聚餐","请客","美食探索"],"inauspicious":["独食","节食"],"wealth":4,"love":4,"career":3,"lucky_color":"口福红","lucky_number":5,"reading":"大堡口福，吃好喝好。今日宜与人分享美食不宜独食。口福不仅是吃的福，更是人脉的福。"}
+  }
+};
+
+const EXTRA_FORTUNES = [
+  "今日麦门庇佑，所食即所得，所得即所愿。",
+  "这一餐，不只是充饥，更是命运的暗号。",
+  "麦门信徒今日得签，运势如同薯条，细长且金黄。",
+  "签文已出，运势已定。但命运掌握在自己手中，筷子掌握在另一只手中。",
+  "今日宜吃麦，忌空腹。运势随餐品一同到来，吃完方灵。",
+  "麦门抽签，灵不灵不知道，好吃是肯定的。",
+  "此签大吉。但吉不吉，看你吃完有没有擦嘴。",
+  "运势如可乐气泡，趁新鲜用完。过期不候。",
+  "今日你的幸运光晕半径为3米，请靠近有好运的人。",
+  "抽到这签说明你与麦门有缘。缘深缘浅，看你怎么搭。"
+];
+
+const COUPONS = ["中薯条买一送一","人气麦旋风买一送一","9.9元中杯冰美式","免费脆薯饼","王牌小食拼"];
+
+let audioCtx = null;
+let isDrawing = false;
+
+function initAudio() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+}
+
+function playTone(freq, duration, type, startTime) {
+  const t = startTime || audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.type = type || 'sine';
+  osc.frequency.value = freq;
+  gain.gain.setValueAtTime(0, t);
+  gain.gain.linearRampToValueAtTime(0.3, t + 0.02);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start(t);
+  osc.stop(t + duration);
+}
+
+function playShakeSound() {
+  initAudio();
+  const noise = audioCtx.createBufferSource();
+  const buffer = audioCtx.createBuffer(1, audioCtx.sampleRate * 0.5, audioCtx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < data.length; i++) {
+    data[i] = (Math.random() * 2 - 1) * 0.3 * (1 - i / data.length);
+  }
+  noise.buffer = buffer;
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'bandpass';
+  filter.frequency.value = 800;
+  noise.connect(filter);
+  filter.connect(audioCtx.destination);
+  noise.start();
+}
+
+function playRevealSound() {
+  initAudio();
+  const baseTime = audioCtx.currentTime;
+  playTone(523.25, 0.3, 'sine', baseTime);
+  playTone(659.25, 0.3, 'sine', baseTime + 0.1);
+  playTone(783.99, 0.4, 'sine', baseTime + 0.2);
+  playTone(1046.50, 0.5, 'sine', baseTime + 0.3);
+}
+
+function playStarSound() {
+  initAudio();
+  playTone(1318.51, 0.15, 'sine', audioCtx.currentTime);
+}
+
+function pickMeals(budget) {
+  const cats = MEALS;
+  let items = [];
+  if (budget < 20) {
+    const snacks = Object.entries(cats.snacks).filter(([,v]) => v.price <= budget);
+    items.push(pickRandom(snacks));
+    const remaining = budget - items[0][1].price;
+    const more = Object.entries(cats.snacks).filter(([,v]) => v.price <= remaining && v.code !== items[0][1].code);
+    if (more.length > 0) items.push(pickRandom(more));
+  } else if (budget < 30) {
+    const burgers = Object.entries(cats.burgers).filter(([,v]) => v.price < budget - 5);
+    items.push(pickRandom(burgers));
+    const remaining = budget - items[0][1].price;
+    const sides = [...Object.entries(cats.snacks), ...Object.entries(cats.drinks), ...Object.entries(cats.desserts)]
+      .filter(([,v]) => v.price <= remaining);
+    if (sides.length > 0) items.push(pickRandom(sides));
+  } else if (budget < 40) {
+    const combos = Object.entries(cats.combos).filter(([,v]) => v.price <= budget);
+    if (combos.length > 0 && Math.random() < 0.4) {
+      items.push(pickRandom(combos));
+    } else {
+      const burgers = Object.entries(cats.burgers).filter(([,v]) => v.price < budget - 18);
+      items.push(pickRandom(burgers));
+      const remaining = budget - items[0][1].price;
+      const snacks = Object.entries(cats.snacks).filter(([,v]) => v.price < remaining - 7);
+      const drinks = Object.entries(cats.drinks).filter(([,v]) => v.price <= remaining - 7);
+      if (snacks.length > 0) items.push(pickRandom(snacks));
+      const remaining2 = remaining - items[1][1].price;
+      const drinkCandidates = Object.entries(cats.drinks).filter(([,v]) => v.price <= remaining2);
+      if (drinkCandidates.length > 0) items.push(pickRandom(drinkCandidates));
+    }
+  } else if (budget < 50) {
+    const combos = Object.entries(cats.combos).filter(([,v]) => v.price <= budget);
+    if (combos.length > 0 && Math.random() < 0.5) {
+      items.push(pickRandom(combos));
+      const remaining = budget - items[0][1].price;
+      const extras = [...Object.entries(cats.desserts), ...Object.entries(cats.snacks)].filter(([,v]) => v.price <= remaining);
+      if (extras.length > 0) items.push(pickRandom(extras));
+    } else {
+      items = pickMeals(35);
+    }
+  } else {
+    const combos = Object.entries(cats.combos).filter(([,v]) => v.price <= budget);
+    items.push(pickRandom(combos));
+    const remaining = budget - items[0][1].price;
+    const extras = [...Object.entries(cats.snacks), ...Object.entries(cats.desserts), ...Object.entries(cats.drinks)]
+      .filter(([,v]) => v.price <= remaining);
+    if (extras.length > 0) items.push(pickRandom(extras));
+    const remaining2 = remaining - items[1][1].price;
+    const more = [...Object.entries(cats.snacks), ...Object.entries(cats.drinks), ...Object.entries(cats.desserts)]
+      .filter(([,v]) => v.price <= remaining2 && v.code !== items[1][1].code);
+    if (more.length > 0 && items.length < 4) items.push(pickRandom(more));
+  }
+  if (items.length === 0) {
+    items.push(["苹果片", {price:7, ...cats.snacks["苹果片"]}]);
+  }
+  return items;
+}
+
+function pickRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function generateFortuneId() {
+  const signs = ["上上签","上签","中上签","中签","中下签","下签"];
+  const weights = [1,3,4,3,2,1];
+  const sign = signs[weightedRandom(weights)];
+  return `${sign} 第${String(Math.floor(Math.random()*999)+1).padStart(3,'0')}号`;
+}
+
+function weightedRandom(weights) {
+  const total = weights.reduce((a,b) => a+b, 0);
+  let r = Math.random() * total;
+  for (let i = 0; i < weights.length; i++) {
+    r -= weights[i];
+    if (r <= 0) return i;
+  }
+  return 0;
+}
+
+function makeStars(n) {
+  return '<span class="star-filled star-pop">' + '*'.repeat(n) + '</span><span class="star-empty">' + '.'.repeat(5-n) + '</span>';
+}
+
+function drawFortune() {
+  if (isDrawing) return;
+  isDrawing = true;
+  initAudio();
+  const budget = parseFloat(document.getElementById('budget').value) || 30;
+  const btn = document.getElementById('drawBtn');
+  btn.disabled = true;
+  btn.textContent = '抽签中...';
+
+  document.getElementById('cardContainer').classList.add('hidden');
+  const tube = document.getElementById('tube');
+  const slip = document.getElementById('slip');
+  const glow = document.getElementById('glow');
+  const stage = document.getElementById('animStage');
+
+  tube.classList.remove('hidden');
+  tube.classList.add('shaking');
+  slip.classList.remove('hidden');
+  slip.classList.remove('falling');
+  slip.textContent = '';
+  glow.classList.remove('burst');
+
+  playShakeSound();
+
+  setTimeout(() => {
+    tube.classList.remove('shaking');
+    slip.textContent = '麦运';
+    slip.classList.add('falling');
+    playRevealSound();
+    glow.classList.add('burst');
+  }, 1500);
+
+  setTimeout(() => {
+    tube.classList.add('hidden');
+    slip.classList.add('hidden');
+    slip.classList.remove('falling');
+    glow.classList.remove('burst');
+    showCard(budget);
+    isDrawing = false;
+    btn.disabled = false;
+    btn.textContent = '抽 签';
+  }, 2800);
+}
+
+function showCard(budget) {
+  const items = pickMeals(budget);
+  const totalPrice = items.reduce((s, [, v]) => s + v.price, 0);
+  const primary = items[0][0];
+  const primaryData = items[0][1];
+
+  let fortune = primaryData;
+  const wealth = Math.min(5, fortune.wealth + items.filter(([,v]) => v.code && v.code.startsWith('4') || v.code && v.code.startsWith('1')).length);
+  const love = Math.min(5, fortune.love + items.filter(([,v]) => v.code && (v.code.startsWith('5') || v.code.startsWith('99000087'))).length);
+  const career = Math.min(5, fortune.career + items.filter(([,v]) => v.code && v.code.startsWith('990000')).length);
+
+  document.getElementById('fortuneId').textContent = generateFortuneId();
+  const mealList = document.getElementById('mealList');
+  mealList.innerHTML = '';
+  items.forEach(([name, info]) => {
+    const li = document.createElement('li');
+    li.innerHTML = `<span>${name}</span><span class="price">¥${info.price.toFixed(1)}</span>`;
+    mealList.appendChild(li);
+  });
+  const totalLi = document.createElement('li');
+  totalLi.innerHTML = `<span>合计</span><span class="price">¥${totalPrice.toFixed(1)}</span>`;
+  mealList.appendChild(totalLi);
+
+  const yijiRow = document.getElementById('yijiRow');
+  yijiRow.innerHTML = '';
+  const goodDiv = document.createElement('div');
+  goodDiv.className = 'yiji-tag yiji-good';
+  goodDiv.innerHTML = '宜: ' + fortune.auspicious.join(' ');
+  yijiRow.appendChild(goodDiv);
+  const badDiv = document.createElement('div');
+  badDiv.className = 'yiji-tag yiji-bad';
+  badDiv.innerHTML = '忌: ' + fortune.inauspicious.join(' ');
+  yijiRow.appendChild(badDiv);
+
+  document.getElementById('wealthStars').innerHTML = makeStars(wealth);
+  document.getElementById('loveStars').innerHTML = makeStars(love);
+  document.getElementById('careerStars').innerHTML = makeStars(career);
+  document.getElementById('wealthVal').textContent = wealth + '/5';
+  document.getElementById('loveVal').textContent = love + '/5';
+  document.getElementById('careerVal').textContent = career + '/5';
+  document.getElementById('luckyColor').textContent = fortune.lucky_color;
+  document.getElementById('luckyNumber').textContent = fortune.lucky_number;
+  document.getElementById('budgetInfo').textContent = `¥${budget}/¥${totalPrice.toFixed(1)}`;
+  document.getElementById('readingText').textContent = fortune.reading;
+  document.getElementById('extraFortune').textContent = '[' + pickRandom(EXTRA_FORTUNES) + ']';
+
+  if (Math.random() > 0.4) {
+    const couponSection = document.getElementById('couponSection');
+    couponSection.classList.remove('hidden');
+    const couponList = document.getElementById('couponList');
+    couponList.innerHTML = '';
+    const numCoupons = Math.floor(Math.random() * 2) + 1;
+    for (let i = 0; i < numCoupons; i++) {
+      const coupon = pickRandom(COUPONS);
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.textContent = '- ' + coupon;
+      couponList.appendChild(div);
+    }
+  } else {
+    document.getElementById('couponSection').classList.add('hidden');
+  }
+
+  const container = document.getElementById('cardContainer');
+  container.classList.remove('hidden');
+  container.classList.add('card-reveal');
+
+  setTimeout(() => {
+    playStarSound();
+    setTimeout(() => playStarSound(), 200);
+    setTimeout(() => playStarSound(), 400);
+  }, 300);
+}
+
+function resetDraw() {
+  document.getElementById('cardContainer').classList.add('hidden');
+  document.getElementById('cardContainer').classList.remove('card-reveal');
+}
+
+function downloadCard() {
+  const card = document.getElementById('fortuneCard');
+  html2canvas(card, {
+    backgroundColor: '#FFF8E7',
+    scale: 2,
+    useCORS: true,
+    logging: false
+  }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'mcd-fortune-' + Date.now() + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+}
+
+document.querySelectorAll('.preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('budget').value = btn.dataset.budget;
+  });
+});
+
+document.getElementById('budget').addEventListener('input', () => {
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+});
+</script>
+</body>
+</html>
