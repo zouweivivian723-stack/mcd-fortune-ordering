@@ -1,6 +1,16 @@
 # 麦门抽签 McDonald's Fortune-Telling Ordering
 
+[![GitHub stars](https://img.shields.io/github/stars/zouweivivian723-stack/mcd-fortune-ordering?style=social)](https://github.com/zouweivivian723-stack/mcd-fortune-ordering)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
+[![McDonald's MCP](https://img.shields.io/badge/McDonald's-MCP-red.svg)](https://github.com/M-China/mcd-mcp-server)
+[![WorkBuddy](https://img.shields.io/badge/WorkBuddy-Skill-green.svg)](https://www.workbuddy.cn)
+
 > 输入预算，抽取今日麦运。一份套餐，一段签文，一种命运。
+
+**如果觉得有趣，点个 Star 支持一下！** :star:
+
+---
 
 ## 这是什么？
 
@@ -82,10 +92,12 @@
 ### 方式二：本地运行
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/mcd-fortune-ordering.git
+git clone https://github.com/zouweivivian723-stack/mcd-fortune-ordering.git
 cd mcd-fortune-ordering
 python3 src/fortune_engine.py 30
 ```
+
+> 试不同预算：`python3 src/fortune_engine.py 15` / `30` / `50` / `100`
 
 ## 项目结构
 
